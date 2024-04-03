@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from '@clerk/nextjs'
@@ -10,14 +10,46 @@ import { Toaster } from "@/components/ui/toaster"
 
 
 const inter = Inter({ subsets: ["latin"] });
+const APP_NAME = "Konve";
+const APP_DEFAULT_TITLE = "A video conferencing app";
+const APP_TITLE_TEMPLATE = "%s - Konve";
+const APP_DESCRIPTION = "Video conferencing app built with Next.js, Stream SDK, and Clerk";
 
 export const metadata: Metadata = {
-  title: "Konve - Video Conferencing App",
-  description: "Video conferencing app built with Next.js, Stream SDK, and Clerk",
-  icons: {
-    icon:'/icons/logo.svg'
+  applicationName: APP_NAME,
+  title: {
+    default: APP_DEFAULT_TITLE,
+    template: APP_TITLE_TEMPLATE,
   },
-  }
+  description: APP_DESCRIPTION,
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: APP_DEFAULT_TITLE,
+    // startUpImage: [],
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    siteName: APP_NAME,
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary",
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
+  },
+}
 
 export default function RootLayout({
   children,
@@ -49,3 +81,7 @@ export default function RootLayout({
     </html>
   );
 }
+
+export const viewport: Viewport = {
+  themeColor: "#000000",
+};
