@@ -18,9 +18,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LayoutList, Users } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import EndCallButton from "./EndCallButton";
 import Loader from "./Loader";
+import { Button } from "./ui/button";
+import { toast } from "./ui/use-toast";
 
 type CallLayoutType = "grid" | "speaker-left" | "speaker-right";
 
@@ -31,6 +33,8 @@ const MeetingRoom = () => {
   const [layout, setLayout] = useState("speaker-left");
   const [showParticipants, setShowParticipants] = useState(false);
   const { useCallCallingState } = useCallStateHooks();
+
+  const currentURL = usePathname();
 
   const callingState = useCallCallingState();
 
@@ -100,6 +104,15 @@ const MeetingRoom = () => {
           </div>
         </button>
         {!isPersonalRoom && <EndCallButton />}
+        <Button onClick={() => {
+          navigator.clipboard.writeText(`https://konve.vercel.app${currentURL}`);
+          toast({
+            title: "Link Copied",
+            description: `The meeting link was https://konve.vercel.app${currentURL}`
+          })
+        }} className="bg-green-500">
+          Copy Meeting Link
+        </Button>
       </div>
     </section>
   );
